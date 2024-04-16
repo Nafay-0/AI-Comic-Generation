@@ -20,7 +20,7 @@ Export `OPENAI_API_KEY` and `STABILITY_KEY`.
 
 Install dependencies: `pip install langchain openai stability-sdk pillow`
 
-Then edit the `SCENARIO` variable in [kartoon.py](kartoon.py).  
+Then edit the `SCENARIO` variable in [kartoon.py](generation.py).  
 You can also edit the `STYLE` variable to change the style.  
 
 Run the script: `python kartoon.py`
