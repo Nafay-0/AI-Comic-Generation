@@ -4,6 +4,7 @@ from stability_ai import text_to_image
 from add_text import add_text_to_panel
 from create_strip import create_strip
 from dotenv import load_dotenv
+from utils import load_llm_model
 from langchain.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from prompts import CHARACTER_DESCRIPTION_PROMPT, IMAGE_PROMPT_REFINE
@@ -19,14 +20,14 @@ load_dotenv()
 
 
 def generate_characters_description(story):
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo")
+    llm = load_llm_model("OpenAI", "gpt-3.5-turbo")
     prompt = PromptTemplate.from_template(CHARACTER_DESCRIPTION_PROMPT)
     characters_description = llm.invoke(prompt.format(scenario=story))
     return characters_description.content
 
 
 def refine_image_gen_prompt(panel):
-    llm = ChatOpenAI(model_name="gpt-3.5-turbo")
+    llm = load_llm_model("OpenAI", "gpt-3.5-turbo")
     prompt = PromptTemplate.from_template(IMAGE_PROMPT_REFINE)
     refined_prompt = llm.invoke(prompt.format(characters_description=panel))
     return refined_prompt.content

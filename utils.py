@@ -14,30 +14,24 @@ def load_llm_model(name="OpenAI", model_id="gpt-3.5-turbo"):
         llm = Together(
             model=f'mistralai/{model_id}',
             temperature=0.2,
-            top_p=0.7,
-            top_k=50,
-            repetition_penalty=1.0,
-            max_tokens=512,
+            max_tokens=20,
+            top_k=1,
             together_api_key=os.getenv("TOGETHER_API_KEY"),
         )
     elif name == 'meta-llama':
         llm = Together(
             model=f'meta-llama/{model_id}',
             temperature=0.2,
-            top_p=0.7,
-            top_k=50,
-            repetition_penalty=1.0,
             max_tokens=512,
+            top_k=1,
             together_api_key=os.getenv("TOGETHER_API_KEY"),
         )
     elif name == 'Gemma':
         llm = Together(
             model=f'google/{model_id}',
             temperature=0.2,
-            top_p=0.7,
-            top_k=50,
-            repetition_penalty=1.0,
             max_tokens=512,
+            top_k=1,
             together_api_key=os.getenv("TOGETHER_API_KEY"),
         )
     else:
@@ -49,11 +43,11 @@ def load_llm_model(name="OpenAI", model_id="gpt-3.5-turbo"):
 
 # Test
 
-# llm = load_llm_model("OpenAI", "gpt-3.5-turbo")
-# print(llm.invoke("Hello, how are you?"))
+llm = load_llm_model("OpenAI", "gpt-3.5-turbo")
+print(llm.invoke("Hello, how are you?"))
 
 # llm = load_llm_model("Mistral", "Mistral-7B-Instruct-v0.2")
-# print(llm.invoke("Hello, how are you?"))
+# print(llm.invoke("What is the capital of France?"))
 
 # llm = load_llm_model("meta-llama", "Llama-3-8b-chat-hf")
 # print(llm.invoke(
