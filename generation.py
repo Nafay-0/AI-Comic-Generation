@@ -52,6 +52,7 @@ def generate_comic(panels, style, characters_description):
         panel_prompt = panel["description"] + ", cartoon box, " + STYLE
         panel_prompt = "Characters: " + characters_description + "\n Story : " + panel_prompt
         panel_prompt = refine_image_gen_prompt(panel_prompt)
+        panel_prompt = panel_prompt + ", cartoon box, " + STYLE
         print(f"Generate panel {panel['number']} with prompt: {panel_prompt}")
         panel_image = text_to_image(panel_prompt)
         panel_image_with_text = add_text_to_panel(panel["text"], panel_image)

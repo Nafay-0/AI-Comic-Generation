@@ -48,13 +48,3 @@ def generate_text_image(text):
     draw.text((x, y), text, fill=text_color, font=font)
 
     return image
-
-# text = """
-# Vincent: I think we need a new product.
-# Adrien: Let's brainstorm some ideas.
-#   """
-
-# image = add_text_to_panel(text, "panel1")
-
-# # save image with PIL
-# image.save('panel1-text.png')

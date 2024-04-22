@@ -4,11 +4,7 @@ from dotenv import load_dotenv
 import json
 import requests
 import os
-from prompts import CHARACTER_DESCRIPTION_PROMPT
 
-CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
-    scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
-)
 
 models_dict = {
     "OpenAI": "gpt-3.5-turbo",
@@ -16,6 +12,7 @@ models_dict = {
     "meta-llama": "Llama-3-8b-chat-hf",
     "Gemma": "gemma-7b-it"
 }
+
 
 def load_llm_model(name="OpenAI", model_id="gpt-3.5-turbo"):
     load_dotenv()
@@ -92,26 +89,12 @@ def invoke_llm_api(model_id="meta-llama/llama-3-8b-chat-hf", prompt=None):
     return response
 
 
-#
-# Test
+"""
+from prompts import CHARACTER_DESCRIPTION_PROMPT
 
-# llm = load_llm_model("OpenAI", "gpt-3.5-turbo")
-# print(llm.invoke("Hello, how are you?"))
-#
-# llm = load_llm_model("Mistral", "Mistral-7B-Instruct-v0.2")
-# print(llm.invoke("What is the capital of France?", stop=["<|eot_id|>"]))
-
-# llm = load_llm_model("meta-llama", "Llama-3-8b-chat-hf")
-# response = invoke_llm(llm,CHARACTER_DESCRIPTION_PROMPT.format(
-#     scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
-# ), stop=["<|eot_id|>"])
-# print(response)
-
-# llm = load_llm_model("Gemma", "gemma-7b-it")
-
-# print(llm)
-# print(llm.invoke("Hellooo"))
-
+CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
+    scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
+)
 CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
     scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
 )
@@ -129,3 +112,5 @@ print("\n\nMistral")
 
 response = invoke_llm_api("mistralai/Mistral-7B-Instruct-v0.2", CONTEXT)
 print(response)
+
+"""
