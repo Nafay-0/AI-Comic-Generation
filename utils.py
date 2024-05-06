@@ -5,7 +5,6 @@ import json
 import requests
 import os
 
-
 models_dict = {
     "OpenAI": "gpt-3.5-turbo",
     "Mistral": "Mistral-7B-Instruct-v0.2",
@@ -79,6 +78,7 @@ def invoke_llm_api(model_id="meta-llama/llama-3-8b-chat-hf", prompt=None):
     }
     response = requests.post(url, headers=headers, data=payload)
     response = response.json()
+    print(response)
     try:
         response = response.get("choices")[0].get("message").get("content")
     except Exception as e:
@@ -89,28 +89,14 @@ def invoke_llm_api(model_id="meta-llama/llama-3-8b-chat-hf", prompt=None):
     return response
 
 
-"""
-from prompts import CHARACTER_DESCRIPTION_PROMPT
-
-CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
-    scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
-)
-CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
-    scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
-)
-
-print("\n\nLlama")
-response = invoke_llm_api("meta-llama/Llama-3-8b-chat-hf", CONTEXT)
-print(response)
-
-print("\n\nGemma")
-
-response = invoke_llm_api("google/gemma-7b-it", CONTEXT)
-print(response)
-
-print("\n\nMistral")
-
-response = invoke_llm_api("mistralai/Mistral-7B-Instruct-v0.2", CONTEXT)
-print(response)
-
-"""
+# from prompts import CHARACTER_DESCRIPTION_PROMPT
+#
+# CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
+#     scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
+# )
+# CONTEXT = CHARACTER_DESCRIPTION_PROMPT.format(
+#     scenario="Adrien and Vincent work at the office and want to start a new product, and they create it in one night before presenting it to the board."
+# )
+# load_dotenv()
+# llm = load_llm_model("meta-llama", "Llama-3-8b-chat-hf")
+# print(llm.invoke("Who is president of us in 1990"))
