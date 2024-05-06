@@ -1,8 +1,10 @@
+import base64
 import io
 import os
 import warnings
 import random
 
+import requests
 from PIL import Image
 from stability_sdk import client
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
@@ -18,7 +20,6 @@ stability_api = client.StabilityInference(
     key=os.getenv("STABILITY_KEY"),
     verbose=True, # Print debug messages.
     engine="stable-diffusion-xl-1024-v1-0", # Set the engine to use for generation.
-    # Check out the following link for a list of available engines: https://platform.stability.ai/docs/features/api-parameters#engine
 )
 
 def text_to_image(prompt):
@@ -32,9 +33,6 @@ def text_to_image(prompt):
         width=1024,
         height=1024,
         sampler=generation.SAMPLER_K_DPMPP_2M )
-
-    # Set up our warning to print to the console if the adult content classifier is tripped.
-    # If adult content classifier is not tripped, display generated image.
     for resp in answers:
         for artifact in resp.artifacts:
             if artifact.finish_reason == generation.FILTER:
@@ -44,7 +42,53 @@ def text_to_image(prompt):
             if artifact.type == generation.ARTIFACT_IMAGE:
                 global img
                 img = Image.open(io.BytesIO(artifact.binary))
-                return img 
+                return img
+
+    # using newer api for sdxl v1.6
+    # load_dotenv()
+    #
+    # engine_id = "stable-diffusion-v1-6"
+    # api_host = 'https://api.stability.ai'
+    # api_key = os.getenv("STABILITY_KEY")
+    #
+    # if api_key is None:
+    #     raise Exception("Missing Stability API key.")
+    #
+    # response = requests.post(
+    #     f"{api_host}/v1/generation/{engine_id}/text-to-image",
+    #     headers={
+    #         "Content-Type": "application/json",
+    #         "Accept": "application/json",
+    #         "Authorization": f"Bearer {api_key}"
+    #     },
+    #     json={
+    #         "text_prompts": [
+    #             {
+    #                 "text": "a young man in his 20s, looking shocked at the chaos happening in the city, cartoon box, american comic colored, cartoon box"
+    #             }
+    #         ],
+    #         "cfg_scale": 8,
+    #         "seed": 123,
+    #         "height": 1024,
+    #         "width": 1024,
+    #         "samples": 1,
+    #         "steps": 30,
+    #     },
+    # )
+    #
+    # if response.status_code != 200:
+    #     raise Exception("Non-200 response: " + str(response.text))
+    #
+    # data = response.json()
+    #
+    # for i, image in enumerate(data["artifacts"]):
+    #     with open(f"./output/v1_txt2img_{i}.png", "wb") as f:
+    #         global img
+    #         img = Image.open(io.BytesIO(base64.b64decode(image["base64"])))
+    #         f.write(base64.b64decode(image["base64"]))
+    # return img
+
+
 
 def edit_image(input_image_path, prompt, output_image_name):
     img = Image.open(input_image_path)

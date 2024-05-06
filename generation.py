@@ -50,12 +50,16 @@ def generate_comic(panels, style, characters_description):
 
     for panel in panels:
         panel_prompt = panel["description"] + ", cartoon box, " + STYLE
-        panel_prompt = "Characters: " + characters_description + "\n Story : " + panel_prompt
+        panel_prompt = "Characters: " + characters_description + "\n Story : " + panel_prompt#
         panel_prompt = refine_image_gen_prompt(panel_prompt)
-        panel_prompt = panel_prompt + ", cartoon box, " + STYLE
+        panel_prompt = panel_prompt + ", cartoon box, " + STYLE#
         print(f"Generate panel {panel['number']} with prompt: {panel_prompt}")
         panel_image = text_to_image(panel_prompt)
-        panel_image_with_text = add_text_to_panel(panel["text"], panel_image)
+        try:
+            panel_image_with_text = add_text_to_panel(panel["text"], panel_image)
+        except Exception as e:
+            print(f"Error adding text to panel {panel['number']}: {e}")
+            panel_image_with_text = panel_image
         panel_image_with_text.save(f"output/panel-{panel['number']}.png")
         panel_images.append(panel_image_with_text)
 
