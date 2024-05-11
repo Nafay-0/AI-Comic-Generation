@@ -30,7 +30,7 @@ def load_llm_model(name="OpenAI", model_id="gpt-3.5-turbo"):
     elif name == 'meta-llama':
         llm = Together(
             model=f'meta-llama/{model_id}',
-            temperature=0.7,
+            temperature=0.2,
             max_tokens=512,
             top_k=50,
             top_p=0.7,
